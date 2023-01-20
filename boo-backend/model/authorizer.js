@@ -1,4 +1,4 @@
-const Login = require("./login");
+const Login = require("./signUp");
 
 const isAdmin = async (userId) => {
   const user = await Login.findById(userId);

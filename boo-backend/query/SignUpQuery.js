@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { find } = require("../model/signUp");
 const SignUpSchema = require("../model/signUp");
 
 exports.SignUpQuery = async (req, res) => {
