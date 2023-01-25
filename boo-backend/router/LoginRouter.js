@@ -7,6 +7,7 @@ const { TokenCheckerMiddleware } = require("../middleware");
 const { authorizer } = require("../model/authorizer");
 const LoginRouter = express.Router();
 
-LoginRouter.get("/Login/:email", LoginGetController).post("/Login", LoginLogin);
+LoginRouter.get("/Login/:email", TokenCheckerMiddleware, LoginGetController);
+LoginRouter.post("/Login", LoginLogin);
 
 module.exports = LoginRouter;

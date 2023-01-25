@@ -9,14 +9,27 @@ exports.LoginGetController = async (req, res) => {
   const result = await Login.findOne({ email: email });
   res.send({ data: result });
 };
+exports.LoginLogin = async (req, res) => {
+  const { password, email } = req.body;
+  const login = await Login.findOne({ email: email });
+  if (!login) res.send(" You don't have any login account, please sign up ");
+
+  if (login.password === password && login.email === email) {
+    const token = await TokenGenerator({ uid: login._id, expires: 1200 });
+    res.send({ token: token });
+    return;
+  } else {
+    res.send("Invalid password or email");
+    return;
+  }
+};
 
 // exports.LoginGetControllerById = async (req, res) => {
 //   const { id } = req.params;
-//   const objId = new mongoose.Types.ObjectId(id);
+//   const objId = new mongoose.Types.ObjecId(id);
 //   const result = await Login.findById({ _id: objId });
 //   res.send({ data: result });
 // };
-
 // exports.LoginPostController = async (req, res) => {
 //   try {
 //     await createLoginQuery(req);
@@ -44,18 +57,3 @@ exports.LoginGetController = async (req, res) => {
 //   // const newDatabse = database.map((el) => el.id == id ? el.name = name : el.name)
 //   // res.status(200).send(newDatabse)
 // };
-
-exports.LoginLogin = async (req, res) => {
-  const { password, email } = req.body;
-  const Login = await Login.findOne({ email: email });
-  if (!Login) res.send(" You don't have any Login account, please sign up ");
-
-  if (Login.password === password && Login.email === email) {
-    const token = await TokenGenerator({ uid: Login._id, expires: 1200 });
-    res.send({ token: token });
-    return;
-  } else {
-    res.send("Invalid password or email");
-    return;
-  }
-};

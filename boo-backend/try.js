@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(LoginRouter);
 app.use(SignUpRouter);
 
+console.log("azaaaaaaaaeeeeoooooo");
 const startServer = async () => {
   await connectDatabse();
   app.listen(port, () => {
