@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
-const { find } = require("../model/signUp");
 const SignUpSchema = require("../model/signUp");
+const bcrypt = require("bcrypt")
 
 exports.SignUpQuery = async (req, res) => {
   const { password, email } = req.body;
-
-  const result = await SignUpSchema({
-    password: password,
+  const salt = bcrypt.genSaltSync(1);
+  const hash = bcrypt.hashSync(password, salt);
+  const result = await new SignUpSchema({
+    password: hash,
     email: email,
   }).save();
 

@@ -1,17 +1,17 @@
-const { default: mongoose } = require("mongoose");
-const User = require("../model/signUp");
+// const { default: mongoose } = require("mongoose");
+// const User = require("../model/signUp");
 
-exports.LoginPutQuery = async (req, res) => {
-  const { email, password } = req.body;
-  const result2 = await User.findOne({ email: email });
+// exports.LoginPutQuery = async (req, res) => {
+//   const { email, password } = req.body;
+//   const result2 = await User.findOne({ email: email });
 
-  if (password === result2.password && email === result2.email) {
-    const token = await TokenGenerator({ uid: result2._id, expires: "1d" });
-    res.status(200).send({ token: token });
-  } else {
-    res.status(400).send({ token: "" });
-  }
-};
+//   if (password === result2.password && email === result2.email) {
+//     const token = await TokenGenerator({ uid: result2._id, expires: "1d" });
+//     res.status(200).send({ token: token });
+//   } else {
+//     res.status(400).send({ token: "" });
+//   }
+// };
 
 // exports.TokenGenerator = async ({ uid, expires }) => {
 //   const payload = { uid: uid }

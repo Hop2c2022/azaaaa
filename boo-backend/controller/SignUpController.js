@@ -22,8 +22,8 @@ exports.SignUpGetController = async (req, res) => {
 
 exports.SignUpPostController = async (req, res) => {
   try {
-    await SignUpQuery(req, res);
-    res.status(201).send(" Successfully created new SignUp ");
+    const result = await SignUpQuery(req, res);
+    res.status(201).send({data: result});
   } catch (err) {
     res.send(err.message);
   }

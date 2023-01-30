@@ -1,21 +1,24 @@
 const { response } = require("express");
 const mongoose = require("mongoose");
-const Login = require("../model/signUp");
+const UserSchema = require("../model/signUp");
 const { createLoginQuery } = require("../query/LoginQuery");
 const { TokenGenerator } = require("../helper/helper");
+const bcrypt = require("bcrypt");
 
 exports.LoginGetController = async (req, res) => {
   const { email } = req.params;
-  const result = await Login.findOne({ email: email });
+  const result = await UserSchema.findOne({ email: email });
   res.send({ data: result });
 };
 exports.LoginLogin = async (req, res) => {
   const { password, email } = req.body;
-  const login = await Login.findOne({ email: email });
-  if (!login) res.send(" You don't have any login account, please sign up ");
+  console.log(email, password);
+  const user = await UserSchema.findOne({ email: email });
+  if (!user) res.send(" You don't have any user account, please sign up ");
+  const deck = await bcrypt.compare(password, user.password);
 
-  if (login.password === password && login.email === email) {
-    const token = await TokenGenerator({ uid: login._id, expires: 1200 });
+  if (deck === true) {
+    const token = await TokenGenerator({ uid: user._id, expires: "1d" });
     res.send({ token: token });
     return;
   } else {
